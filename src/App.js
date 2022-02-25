@@ -14,8 +14,8 @@ function App() {
   return (
     <div>
       <Routes>
-        <Route exact path='/' element={<HomePage />} />
-        <Route path='/hats' element={<HatsPage />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='hats' element={<HatsPage />} />
       </Routes>
     </div>
   );
