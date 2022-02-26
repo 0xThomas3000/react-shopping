@@ -26,8 +26,25 @@ class App extends React.Component {
   componentDidMount() {
     // Firing a fetch to the backend to fetch Data
     // onAuthStateChanged: method on 'auth' with the 'user state' as param
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async user => { 
-      createUserProfileDocument(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => { 
+      if (userAuth) {
+        const userRef = await createUserProfileDocument(userAuth); // If there's a Document there, get back to userRef
+
+        // To check if our DB has updated at that reference with any new data?
+        // Listen/subscribe to this userRef for any changes to that data, 
+        //  but will also get back the 'first State' of that data
+        userRef.onSnapshot(snapShot => { 
+          this.setState({
+            currentUser: {
+              id: snapShot.id,
+              ...snapShot.data()
+            }
+          }, () => {
+            console.log(this.state);
+          });
+        });
+      }
+      this.setState( {currentUser: userAuth }); // Set the user to 'null'(if the userAuth doesn't exist)
     }); 
   }
 
