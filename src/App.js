@@ -4,7 +4,7 @@ import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component';
-import { auth } from './firebase/firebase.utils';
+import { auth, createUserProfileDocument } from './firebase/firebase.utils';
 import './App.css';
 
 class App extends React.Component {
@@ -26,11 +26,8 @@ class App extends React.Component {
   componentDidMount() {
     // Firing a fetch to the backend to fetch Data
     // onAuthStateChanged: method on 'auth' with the 'user state' as param
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(user => { 
-      // Because of 'subscriber' here,'Subscription' always listens to the Auth, the Auth is gonna send
-      // that "user authenticated object" every time until they sign out. 
-      this.setState( {currentUser: user });
-      console.log(user);
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async user => { 
+      createUserProfileDocument(user);
     }); 
   }
 
