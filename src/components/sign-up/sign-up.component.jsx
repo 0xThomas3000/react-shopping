@@ -51,14 +51,12 @@ class SignUp extends React.Component {
         password: '',
         confirmPassword: ''
       });
-    } catch (error) { // Any thing wrong (can't fetch, or can't create...)
+    } catch (error) { // Any thing wrong (ex: can't fetch, or can't create...)
       console.error(error);
     }
   };
 
-  /* 
-      Destructure off of the 'event' the 'name' and 'value' from 'target'
-  */
+  /* Destructuring off the 'event' the 'name' and 'value' from 'target' */
   handleChange = event => {
     const { name, value } = event.target;
     this.setState({ [name]: value }); // dynamically set the 'name' value to the 'value' value
