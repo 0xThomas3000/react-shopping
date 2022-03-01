@@ -1,3 +1,5 @@
+import { UserActionTypes } from './user.types';
+
 /*  Reducer:
      - A reducer is actually just a function that gets two properties.
      - It gets a "State Object" which represents the last state or an initial state (an obj that represents what it is)
@@ -25,17 +27,17 @@ const INITIAL_STATE = {
 //   the State value and consider it an actual valid value.
 //   => How do we return the actual State we want based on the action?
 const userReducer = (state = INITIAL_STATE, action) => { 
-  // Note: every single producer gets every single action that ever gets fired, 
+  // Note: every single reducer gets every single action that ever gets fired, 
   //       even if those actions are not related to this reducer.
   switch (action.type) {
-    case 'SET_CURRENT_USER': // Whenever SET_CURRENT_USER is the action type that gets fired.
+    case UserActionTypes.SET_CURRENT_USER: // Whenever SET_CURRENT_USER is the action type that gets fired.
       // Return a new object which represents the new State that our user reducer is going to transform into.
       return {
         ...state, // Everything else on the State we wanna spread, as we only want to modify values we care about
         currentUser: action.payload // The value that we care set in our currentUser which is the 'payload'
       };
     default:
-      return state; // Default to return the current state of what the reducer is 
+      return state; // Default to return the current state of what the currentUser is 
   }
 };
 

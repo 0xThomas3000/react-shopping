@@ -13,6 +13,7 @@ const config = {
   measurementId: "G-3KE622YRRZ"
 };
 
+/* Will take the user-auth object we got back from Authentication library, then store inside the firestore DB */
 export const createUserProfileDocument = async (userAuth, additionalData) => {
   if (!userAuth) 
     return;

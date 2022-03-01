@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import HomePage from './pages/homepage/homepage.component';
 import ShopPage from './pages/shop/shop.component';
 import Header from './components/header/header.component';
@@ -22,25 +22,25 @@ class App extends React.Component {
 
     // Firing a fetch to the backend to fetch Data
     // onAuthStateChanged: method on 'auth' with the 'user state' as param
-    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => { 
+    this.unsubscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
       if (userAuth) {
         const userRef = await createUserProfileDocument(userAuth); // If there's a Document there, get back to userRef
 
         // To check if our DB has updated at that reference with any new data?
         // Listen/subscribe to this userRef for any changes to that data, 
         //  but will also get back the 'first State' of that data
-        userRef.onSnapshot(snapShot => { 
+        userRef.onSnapshot(snapShot => {
           setCurrentUser({ // this line of code was replaced to our currentUser action code.
-              id: snapShot.id,
-              ...snapShot.data()
-            }
-          //, () => {console.log(this.state);}
+            id: snapShot.id,
+            ...snapShot.data()
+          }
+            //, () => {console.log(this.state);}
           );
           // console.log(this.state);
         });
       }
       setCurrentUser(userAuth); // Set the user to 'null'(if the userAuth doesn't exist)
-    }); 
+    });
   }
 
   componentWillUnmount() {
@@ -54,17 +54,29 @@ class App extends React.Component {
         <Routes>
           <Route path='/' element={<HomePage />} />
           <Route path='shop' element={<ShopPage />} />
-          <Route path='signin' element={<SignInAndSignUpPage />} />
+          <Route path='signin' 
+            element={
+              this.props.currentUser ? (
+                <Navigate to='/'/> 
+              ) : ( 
+                <SignInAndSignUpPage />
+              )
+            } 
+          />
         </Routes>
       </div>
     );
   };
 }
 
+const mapStateToProps = ({ user }) => ({
+  currentUser: user.currentUser
+});
+
 /*  A function that gets this 'dispatch' property then similarily will return an object where 
  *  the prop name will be whatever prop we want to pass in which dispatches the new action 
  *  that we're trying to pass, which is setCurrentUser in this case.
- */ 
+ */
 const mapDispatchToProps = dispatch => ({
   setCurrentUser: user => dispatch(setCurrentUser(user)) // Invoke setCurrentUser with the user that will then be used as the payload
 });
@@ -75,4 +87,4 @@ const mapDispatchToProps = dispatch => ({
  *    - Because outside of passing it into a header, it only sets it, but it doesn't do anything with the
  *      currentUser value in its Component itself
  */
-export default connect(null, mapDispatchToProps)(App); 
+export default connect(mapStateToProps, mapDispatchToProps)(App); 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { ReactComponent as Logo } from '../../assets/crown.svg';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';// higher order Component: let us modify Component to have access to Redux-related things
+import { connect } from 'react-redux';// higher order Component: connects this Component to a Redux "store"
 import { auth } from '../../firebase/firebase.utils';
 import './header.styles.scss';
 
@@ -37,5 +37,5 @@ const mapStateToProps = state => ({
 // - connect: pass it to functions, the second one being optional, 
 //            then that'll give us back another higher component that we passed in "Header"
 // - First argument of connect: 
-//    a function that allows us to access the state with the state being our reducer(root reducer to be specific)
+//    a function that allows us to access the state which is our root-reducer)
 export default connect(mapStateToProps)(Header);
