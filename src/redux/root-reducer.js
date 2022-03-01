@@ -1,5 +1,6 @@
 import { combineReducers } from 'redux';
 import userReducer from './user/user.reducer';
+import cartReducer from './cart/cart.reducer';
 
 /*  - Base reducer object that represents all of the State of our app 
  *  - Is the actual code that combines all of other States together.
@@ -8,7 +9,8 @@ import userReducer from './user/user.reducer';
 
 // Export out this as the default value which gets returned from combineReducers passing in an object.
 export default combineReducers({
-  user: userReducer // an object where the key goes to the actual reducer(userReducer) that we want.
+  user: userReducer, // an object where the key goes to the actual reducer(userReducer) that we want.
+  cart: cartReducer
   /*
       Note: all full state in Redux is just one big JSON object. 
             The keys that represent the individual slices of state
