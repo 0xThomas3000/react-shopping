@@ -3,6 +3,9 @@ import { connect } from "react-redux"; // Access cartItems by pulling them off o
 import CustomButton from '../custom-button/custom-button.component';
 import CartItem from '../cart-item/cart-item.component';
 
+// Ensure CartDropdown won't get rerendered whenever the State changes are unrelated to the Cart item
+import { selectCartItems } from "../../redux/cart/cart.selectors";
+
 import './cart-dropdown.styles.scss';
 
 const CartDropdown = ({ cartItems }) => (
@@ -16,8 +19,8 @@ const CartDropdown = ({ cartItems }) => (
   </div>
 )
 
-const mapStateToProps = ({ cart: {cartItems} }) => ({
-  cartItems
+const mapStateToProps = (state) => ({
+  cartItems: selectCartItems(state)
 });
 
 export default connect(mapStateToProps)(CartDropdown);
